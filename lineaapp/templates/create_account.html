@@ -101,6 +101,12 @@
       border-color: #555;
     }
 
+    .error {
+      color: red;
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+    }
+
     @media (max-width: 480px) {
       .container {
         margin: 1rem;
@@ -115,19 +121,22 @@
 <body>
   <div class="container">
     <h2>Create Account</h2>
-    <form action="" method="post">
+    <form id="signupForm" action="" method="post">
         {% csrf_token %} 
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" placeholder="Enter your name" required name="name">
+        <div id="nameError" class="error"></div>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Enter your email" required name="email">
+        <div id="emailError" class="error"></div>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Enter password" required name="pswd">
+        <div id="passwordError" class="error"></div>
       </div>
       <button type="submit">Sign Up</button>
     </form>
@@ -135,5 +144,46 @@
       Already have an account? <a href="{% url 'login' %}">Login</a>
     </div>
   </div>
+
+  <script>
+    const form = document.getElementById("signupForm");
+    const nameField = document.getElementById("name");
+    const emailField = document.getElementById("email");
+    const passwordField = document.getElementById("password");
+
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    form.addEventListener("submit", function(event) {
+      let valid = true;
+      nameError.textContent = "";
+      emailError.textContent = "";
+      passwordError.textContent = "";
+
+      // Name validation
+      if (nameField.value.trim().length < 3) {
+        nameError.textContent = "Name must be at least 3 characters long.";
+        valid = false;
+      }
+
+      // Email validation
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!emailField.value.match(emailPattern)) {
+        emailError.textContent = "Please enter a valid email address.";
+        valid = false;
+      }
+
+      // Password validation
+      if (passwordField.value.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters long.";
+        valid = false;
+      }
+
+      if (!valid) {
+        event.preventDefault(); // stop submission
+      }
+    });
+  </script>
 </body>
 </html>

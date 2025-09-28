@@ -27,7 +27,9 @@ def login(request):
             request.session['user_id'] = user.id
             return redirect(home_page,id=user.id)
         else:
-            return redirect(login)
+            return render(request, 'login.html', {
+                'error_message': "Invalid email or password. Please try again."
+            })
     return render(request,'login.html')
 
 def home_page(request,id):
@@ -40,6 +42,7 @@ def upload_post(request,id):
         content=request.POST.get("content")
         if user:
             post.objects.create(user=user,lines=content)
+            return redirect(index)
     lines = post.objects.filter(user=user).order_by('-date')
     return render(request, 'home_page.html', {'user': user, 'lines': lines})
 
