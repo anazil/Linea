@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <style>
+        /* General page style */
+        body {
+            background-color: #f8f8f8;
+            color: #111;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for form */
+        .edit-container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: none;
+            background-color: #fafafa;
+            color: #111;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        a.cancel {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            color: #111;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        a.cancel:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-container">
+        <h2>Edit Lines</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <textarea name="content" placeholder="Update your post...">{{ line.lines }}</textarea>
+            <button type="submit">Update</button>
+        </form>
+        <a class="cancel" href="{% url 'view_my_lines' line.user.id %}">Cancel</a>
+    </div>
+</body>
+</html>
